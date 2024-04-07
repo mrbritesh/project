@@ -54,7 +54,7 @@ async def update_btcusd_rate():
 async def antispam(msg=None, call=None):
     if msg:
         if (config.USER_MESSAGE_COUNT.get(msg.from_user.id, 0) >= config.SPAM_THRESHOLD and
-                (msg.date - config.USER_LAST_MESSAGE_TIME[msg.from_user.id]).total_seconds() < 3600):
+                (msg.date - config.USER_LAST_MESSAGE_TIME[msg.from_user.id]).total_seconds() < 20):
             return False
 
         else:
@@ -72,7 +72,7 @@ async def antispam(msg=None, call=None):
             if config.USER_MESSAGE_COUNT.get(msg.from_user.id, 0) == config.SPAM_THRESHOLD:
                 config.USERS_SPAM[msg.from_user.id] = 1
                 await msg.answer(main.antispam)
-                await asyncio.sleep(3600)
+                await asyncio.sleep(20)
 
                 config.USERS_SPAM.pop(msg.from_user.id)
                 config.USER_MESSAGE_COUNT.pop(msg.from_user.id)
